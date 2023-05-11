@@ -11,6 +11,7 @@ export default function Layout(props) {
           :root {
             --gris: #3d3d3d;
             --gris2: #6f6f6f;
+            --gris3: #e1e1e1;
             --naranja: #da552f;
           }
 
