@@ -1,13 +1,12 @@
-import { Animated, Basic, bounce, Combined } from '../shared/styles'
+import React from 'react';
+import Layout from '../components/layout/Layout';
 
 const Home = () => (
   <div>
-    <Basic>Cool Styles</Basic>
-    <Combined>
-      With <code>:hover</code>.
-    </Combined>
-    <Animated animation={bounce}>Let's bounce.</Animated>
+    <Layout>
+      <h1>Home</h1>
+    </Layout>
   </div>
-)
+);
 
-export default Home
+export default Home;
