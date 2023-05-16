@@ -1,12 +1,12 @@
 import React from 'react';
 import Layout from '../components/layout/Layout';
 
-const Nosotros = () => (
+const Login = () => (
   <div>
     <Layout>
-      <h1>Nosotros</h1>
+      <h1>Login</h1>
     </Layout>
   </div>
 );
 
-export default Nosotros;
+export default Login;

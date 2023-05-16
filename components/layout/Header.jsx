@@ -36,11 +36,12 @@ export default function Header() {
       `}
     >
       <ContenedorHeader>
-        <div css={css`
-          display: flex;
-          align-items: center;
-          
-        `} >
+        <div
+          css={css`
+            display: flex;
+            align-items: center;
+          `}
+        >
           <Link href="/">
             <Logo>P</Logo>
           </Link>
@@ -69,10 +70,10 @@ export default function Header() {
             </>
           ) : (
             <>
-              <Link href="/">
+              <Link href="/login">
                 <Boton bgColor="true">Login</Boton>
               </Link>
-              <Link href="/">
+              <Link href="/crear-cuenta">
                 <Boton>Crear Cuenta</Boton>
               </Link>
             </>
