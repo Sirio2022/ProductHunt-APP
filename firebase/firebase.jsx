@@ -6,12 +6,17 @@ import {
   signInWithEmailAndPassword,
   
 } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 
 import firebaseConfig from './config';
+
 
 const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
+
+export const db = getFirestore(app);
+
 
 // Registrar un usuario
 export const registrar = async (nombre, email, password) => {
