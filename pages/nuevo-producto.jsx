@@ -60,15 +60,14 @@ const NuevoProducto = () => {
     try {
       await addDoc(collection(db, 'productos'), producto);
       const ImgUrl = await uploadImage(file);
-      setUrlImagen(ImgUrl);
       console.log(ImgUrl);
+      setUrlImagen(ImgUrl);
+      router.push('/');
     } catch (error) {
       console.log(error);
       guardarError(error.message);
     }
-
   }
-  
 
   return (
     <div>
