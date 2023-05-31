@@ -62,7 +62,7 @@ const NuevoProducto = () => {
       const ImgUrl = await uploadImage(file);
       console.log(ImgUrl);
       setUrlImagen(ImgUrl);
-      router.push('/');
+      return router.push('/');
     } catch (error) {
       console.log(error);
       guardarError(error.message);
