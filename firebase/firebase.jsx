@@ -4,19 +4,31 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
   signInWithEmailAndPassword,
-  
 } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 import firebaseConfig from './config';
-
 
 const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
 
 export const db = getFirestore(app);
+export const storage = getStorage(app);
 
+/**
+ *
+ * @param {*} file
+ * @returns {Promise<string>}
+ */
+
+export const uploadImage = async (file) => {
+  const storageRef = ref(storage, `productos/${file.name}`);
+  await uploadBytes(storageRef, file);
+  const url = await getDownloadURL(storageRef);
+  return url;
+};
 
 // Registrar un usuario
 export const registrar = async (nombre, email, password) => {

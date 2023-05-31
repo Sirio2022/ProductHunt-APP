@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { css } from '@emotion/react';
 import { useRouter } from 'next/router';
+
 import Layout from '../components/layout/Layout';
 import { Formulario, Campo, InputSubmit } from '../components/ui/Formulario';
 
@@ -8,6 +9,7 @@ import { Formulario, Campo, InputSubmit } from '../components/ui/Formulario';
 import { FirebaseContext } from '../firebase';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../firebase/firebase';
+import { uploadImage } from '../firebase/firebase';
 
 // Validaciones
 import useValidacion from '../hooks/useValidacion';
@@ -25,13 +27,16 @@ const NuevoProducto = () => {
   const router = useRouter();
   const [error, guardarError] = useState(false);
 
+  const [file, setFile] = useState(null);
+  const [urlImagen, setUrlImagen] = useState('');
+
   const { valores, errores, handleSubmit, handleChange, handleBlur } =
     useValidacion(STATE_INICIAL, validarCrearProducto, crearProducto);
 
   const { nombre, empresa, imagen, url, descripcion } = valores;
 
   // Hook de context de firebase
-  const { usuario, firebase } = useContext(FirebaseContext);
+  const { usuario } = useContext(FirebaseContext);
 
   async function crearProducto() {
     // Si el usuario no esta autenticado llevar al login
@@ -44,6 +49,7 @@ const NuevoProducto = () => {
       nombre,
       empresa,
       url,
+      urlImagen,
       descripcion,
       votos: 0,
       comentarios: [],
@@ -53,11 +59,16 @@ const NuevoProducto = () => {
     // Insertarlo en la base de datos
     try {
       await addDoc(collection(db, 'productos'), producto);
+      const ImgUrl = await uploadImage(file);
+      setUrlImagen(ImgUrl);
+      console.log(ImgUrl);
     } catch (error) {
       console.log(error);
       guardarError(error.message);
     }
+
   }
+  
 
   return (
     <div>
@@ -106,19 +117,19 @@ const NuevoProducto = () => {
 
               {errores.empresa && <Error>{errores.empresa}</Error>}
 
-              {/* <Campo>
+              <Campo>
                 <label htmlFor="imagen">Imagen</label>
                 <input
                   type="file"
                   id="imagen"
                   name="imagen"
                   value={imagen}
-                  onChange={handleChange}
+                  onChange={(e) => setFile(e.target.files[0])}
                   onBlur={handleBlur}
                 />
               </Campo>
 
-              {errores.imagen && <Error>{errores.imagen}</Error>} */}
+              {errores.imagen && <Error>{errores.imagen}</Error>}
 
               <Campo>
                 <label htmlFor="url">Url</label>
