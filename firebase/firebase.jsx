@@ -19,7 +19,7 @@ export const storage = getStorage(app);
 
 /**
  *
- * @param {*} file
+ * @param {File} file
  * @returns {Promise<string>}
  */
 

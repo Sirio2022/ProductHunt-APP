@@ -44,6 +44,9 @@ const NuevoProducto = () => {
       return router.push('/login');
     }
 
+    const urlImagen = await uploadImage(file);
+    console.log(urlImagen);
+
     // Crear el objeto de nuevo producto
     const producto = {
       nombre,
@@ -58,11 +61,9 @@ const NuevoProducto = () => {
 
     // Insertarlo en la base de datos
     try {
-      await addDoc(collection(db, 'productos'), producto);
-      const ImgUrl = await uploadImage(file);
-      console.log(ImgUrl);
-      setUrlImagen(ImgUrl);
-      return router.push('/');
+      const docRef = await addDoc(collection(db, 'productos'), producto);
+      console.log('Document written with ID: ', docRef.id);
+      router.push('/');
     } catch (error) {
       console.log(error);
       guardarError(error.message);
