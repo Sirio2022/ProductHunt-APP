@@ -28,7 +28,6 @@ const NuevoProducto = () => {
   const [error, guardarError] = useState(false);
 
   const [file, setFile] = useState(null);
-  const [urlImagen, setUrlImagen] = useState('');
 
   const { valores, errores, handleSubmit, handleChange, handleBlur } =
     useValidacion(STATE_INICIAL, validarCrearProducto, crearProducto);
