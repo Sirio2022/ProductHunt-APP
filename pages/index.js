@@ -7,15 +7,18 @@ import DetallesProducto from '../components/layout/DetallesProducto';
 const Home = () => {
   const [productos, guardarProductos] = useState([]);
 
-  
-
   useEffect(() => {
     const obtenerProductos = async () => {
       const querySnapshot = await getDocs(
         collection(db, 'productos'),
         orderBy('creado', 'desc')
       );
-      const productos = querySnapshot.docs.map((doc) => doc.data());
+      const productos = querySnapshot.docs.map((doc) => {
+        return {
+          id: doc.id,
+          ...doc.data(),
+        };
+      });
       guardarProductos(productos);
     };
     obtenerProductos();
@@ -28,11 +31,7 @@ const Home = () => {
           <div className="contenedor">
             <ul className="bg-white">
               {productos.map((producto) => (
-                <DetallesProducto 
-                  key={producto.id}
-                  producto={producto}
-                
-                />
+                <DetallesProducto key={producto.id} producto={producto} />
               ))}
             </ul>
           </div>
