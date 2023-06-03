@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { css } from '@emotion/react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 import Layout from '../components/layout/Layout';
 import { Formulario, Campo, InputSubmit } from '../components/ui/Formulario';
@@ -65,8 +65,8 @@ const NuevoProducto = () => {
 
     // Insertarlo en la base de datos
     try {
-      await addDoc(collection(db, 'productos'), producto);
-      //console.log('Document written with ID: ', docRef.id);
+      const docRef = await addDoc(collection(db, 'productos'), producto);
+      console.log('Document written with ID: ', docRef.id);
       return router.push('/');
     } catch (error) {
       console.log(error);
