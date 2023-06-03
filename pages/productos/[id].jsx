@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import Layout from '../../components/layout/Layout';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase/firebase';
@@ -109,9 +110,11 @@ export default function Producto() {
               ))}
             </div>
             <aside>
-              <Boton target="_blank" bgColor="true" href={url}>
-                Visitar URL
-              </Boton>
+              <Link href={url}>
+                <Boton target="_blank" bgColor="true">
+                  Visitar URL
+                </Boton>
+              </Link>
 
               <div
                 css={css`
