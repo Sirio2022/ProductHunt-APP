@@ -28,7 +28,6 @@ const Logo = styled.p`
 `;
 
 export default function Header() {
-  
   const { usuario } = useContext(FirebaseContext);
 
   return (
@@ -67,7 +66,11 @@ export default function Header() {
               >
                 Hola: {usuario.displayName}
               </p>
-              <Boton type="button" bgColor="true" onClick={() => cerrarSesion()}>
+              <Boton
+                type="button"
+                bgColor="true"
+                onClick={() => cerrarSesion()}
+              >
                 Cerrar Sesión
               </Boton>
             </>
