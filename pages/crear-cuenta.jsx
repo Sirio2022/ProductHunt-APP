@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { css } from '@emotion/react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import Layout from '../components/layout/Layout';
 import { Formulario, Campo, InputSubmit } from '../components/ui/Formulario';
 
