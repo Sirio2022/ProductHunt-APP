@@ -110,10 +110,8 @@ export default function Producto() {
               ))}
             </div>
             <aside>
-              <Link href={url}>
-                <Boton target="_blank" bgColor="true">
-                  Visitar URL
-                </Boton>
+              <Link href={url} passHref target="_blank">
+                <Boton bgColor="true">Visitar URL</Boton>
               </Link>
 
               <div
