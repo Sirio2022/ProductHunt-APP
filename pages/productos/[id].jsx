@@ -112,6 +112,22 @@ export default function Producto() {
               <Boton target="_blank" bgColor="true" href={url}>
                 Visitar URL
               </Boton>
+
+              <div
+                css={css`
+                  margin-top: 5rem;
+                `}
+              >
+                <p
+                  css={css`
+                    text-align: center;
+                  `}
+                >
+                  {votos} Votos
+                </p>
+
+                <Boton>Votar</Boton>
+              </div>
             </aside>
           </ContenedorProducto>
         </div>

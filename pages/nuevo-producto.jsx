@@ -36,6 +36,7 @@ const NuevoProducto = () => {
 
   // Hook de context de firebase
   const { usuario } = useContext(FirebaseContext);
+  console.log(usuario);
 
   async function crearProducto() {
     // Si el usuario no esta autenticado llevar al login
@@ -56,13 +57,17 @@ const NuevoProducto = () => {
       votos: 0,
       comentarios: [],
       creado: Date.now(),
+      creador: {
+        id: usuario.uid,
+        nombre: usuario.displayName,
+      },
     };
 
     // Insertarlo en la base de datos
     try {
-      const docRef = await addDoc(collection(db, 'productos'), producto);
-      console.log('Document written with ID: ', docRef.id);
-      router.push('/');
+      await addDoc(collection(db, 'productos'), producto);
+      //console.log('Document written with ID: ', docRef.id);
+      return router.push('/');
     } catch (error) {
       console.log(error);
       guardarError(error.message);
