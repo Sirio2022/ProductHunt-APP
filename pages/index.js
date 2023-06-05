@@ -1,6 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react';
 import Layout from '../components/layout/Layout';
-import { collection, getDocs, orderBy, query } from 'firebase/firestore';
+import {
+  collection,
+  getDocs,
+  onSnapshot,
+  orderBy,
+  query,
+} from 'firebase/firestore';
 import { db } from '../firebase/firebase';
 import DetallesProducto from '../components/layout/DetallesProducto';
 
@@ -9,22 +15,26 @@ const Home = () => {
 
   useEffect(() => {
     // Consultar la base de datos con los productos disponibles oodenados por fecha de creación.
-    const obtenerProductos = async () => {
+
+    //Tiempo real
+    const obtenerProductos = () => {
       const collection_ref = collection(db, 'productos');
       const q = query(collection_ref, orderBy('creado', 'desc'));
-      const querySnapshot = await getDocs(q);
 
-      const productos = [];
+      onSnapshot(q, (querySnapshot) => {
+        const productos = [];
 
-      querySnapshot.forEach((doc) => {
-        productos.push({
-          id: doc.id,
-          ...doc.data(),
+        querySnapshot.forEach((doc) => {
+          productos.push({
+            id: doc.id,
+            ...doc.data(),
+          });
         });
-      });
 
-      guardarProductos(productos);
+        guardarProductos(productos);
+      });
     };
+
     obtenerProductos();
   }, []);
 
