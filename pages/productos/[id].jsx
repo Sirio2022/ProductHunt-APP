@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { useRouter as useRouter2 } from 'next/navigation';
 import Link from 'next/link';
 import Layout from '../../components/layout/Layout';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
@@ -21,6 +22,16 @@ const ContenedorProducto = styled.div`
   }
 `;
 
+const CreadorProducto = styled.p`
+  padding: 0.5rem 2rem;
+  background-color: #da552f;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: bold;
+  display: inline-block;
+  text-align: center;
+`;
+
 export default function Producto() {
   // State del componente
   const [producto, setProducto] = useState({});
@@ -32,6 +43,8 @@ export default function Producto() {
   const {
     query: { id },
   } = router;
+
+  const router2 = useRouter2();
 
   //Context de firebase
   const { usuario } = useContext(FirebaseContext);
@@ -73,7 +86,7 @@ export default function Producto() {
   // Administrar y validar los votos
   const votarProducto = () => {
     if (!usuario) {
-      return router.push('/login');
+      return router2.push('/login');
     }
 
     // Obtener y sumar un nuevo voto
@@ -109,11 +122,19 @@ export default function Producto() {
   };
 
   // Identifica si el comentario es del creador del producto
+
+  const esCreardor = (id) => {
+    if (creador.id === id) {
+      return true;
+    }
+  };
+
+  // Identifica si el comentario es del creador del producto
   const agregarComentario = (e) => {
     e.preventDefault();
 
     if (!usuario) {
-      return router.push('/login');
+      return router2.push('/login');
     }
 
     // Informacion extra al comentario
@@ -184,12 +205,37 @@ export default function Producto() {
                 Comentarios
               </h2>
 
-              {comentarios.map((comentario) => (
-                <li>
-                  <p>{comentario.nombre}</p>
-                  <p>Escrito por: {comentario.usuarioNombre}</p>
-                </li>
-              ))}
+              {comentarios.length === 0 ? (
+                'Aún non hay comentarios'
+              ) : (
+                <ul>
+                  {comentarios.map((comentario, i) => (
+                    <li
+                      key={`${comentario.usuarioId}-${i}`}
+                      css={css`
+                        border: 1px solid #e1e1e1;
+                        padding: 2rem;
+                      `}
+                    >
+                      <p>{comentario.mensaje}</p>
+                      <p>
+                        Escrito por:
+                        <span
+                          css={css`
+                            font-weight: bold;
+                          `}
+                        >
+                          {' '}
+                          {comentario.usuarioNombre}
+                        </span>
+                      </p>
+                      {esCreardor(comentario.usuarioId) && (
+                        <CreadorProducto> Es Creador </CreadorProducto>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
             <aside>
               <Link href={url} passHref target="_blank">
