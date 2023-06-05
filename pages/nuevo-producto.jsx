@@ -10,6 +10,7 @@ import { FirebaseContext } from '../firebase';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../firebase/firebase';
 import { uploadImage } from '../firebase/firebase';
+import Error404 from '../components/layout/404';
 
 // Validaciones
 import useValidacion from '../hooks/useValidacion';
@@ -36,7 +37,6 @@ const NuevoProducto = () => {
 
   // Hook de context de firebase
   const { usuario } = useContext(FirebaseContext);
-  console.log(usuario);
 
   async function crearProducto() {
     // Si el usuario no esta autenticado llevar al login
@@ -61,6 +61,7 @@ const NuevoProducto = () => {
         id: usuario.uid,
         nombre: usuario.displayName,
       },
+      haVotado: [],
     };
 
     // Insertarlo en la base de datos
@@ -77,102 +78,106 @@ const NuevoProducto = () => {
   return (
     <div>
       <Layout>
-        <>
-          <h1
-            css={css`
-              text-align: center;
-              margin-top: 5rem;
-            `}
-          >
-            Nuevo Producto
-          </h1>
+        {!usuario ? (
+          <Error404 />
+        ) : (
+          <>
+            <h1
+              css={css`
+                text-align: center;
+                margin-top: 5rem;
+              `}
+            >
+              Nuevo Producto
+            </h1>
 
-          <Formulario onSubmit={handleSubmit} noValidate>
-            <fieldset>
-              <legend>Información General</legend>
+            <Formulario onSubmit={handleSubmit} noValidate>
+              <fieldset>
+                <legend>Información General</legend>
 
-              <Campo>
-                <label htmlFor="nombre">Nombre</label>
-                <input
-                  type="text"
-                  id="nombre"
-                  placeholder="Tu Nombre"
-                  name="nombre"
-                  value={nombre}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-              </Campo>
+                <Campo>
+                  <label htmlFor="nombre">Nombre</label>
+                  <input
+                    type="text"
+                    id="nombre"
+                    placeholder="Nombre del producto"
+                    name="nombre"
+                    value={nombre}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                </Campo>
 
-              {errores.nombre && <Error>{errores.nombre}</Error>}
+                {errores.nombre && <Error>{errores.nombre}</Error>}
 
-              <Campo>
-                <label htmlFor="empresa">Empresa</label>
-                <input
-                  type="text"
-                  id="empresa"
-                  placeholder="Nombre de la empresa"
-                  name="empresa"
-                  value={empresa}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-              </Campo>
+                <Campo>
+                  <label htmlFor="empresa">Empresa</label>
+                  <input
+                    type="text"
+                    id="empresa"
+                    placeholder="Nombre de la empresa"
+                    name="empresa"
+                    value={empresa}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                </Campo>
 
-              {errores.empresa && <Error>{errores.empresa}</Error>}
+                {errores.empresa && <Error>{errores.empresa}</Error>}
 
-              <Campo>
-                <label htmlFor="imagen">Imagen</label>
-                <input
-                  type="file"
-                  id="imagen"
-                  name="imagen"
-                  value={imagen}
-                  onChange={(e) => setFile(e.target.files[0])}
-                  onBlur={handleBlur}
-                />
-              </Campo>
+                <Campo>
+                  <label htmlFor="imagen">Imagen</label>
+                  <input
+                    type="file"
+                    id="imagen"
+                    name="imagen"
+                    value={imagen}
+                    onChange={(e) => setFile(e.target.files[0])}
+                    onBlur={handleBlur}
+                  />
+                </Campo>
 
-              {errores.imagen && <Error>{errores.imagen}</Error>}
+                {errores.imagen && <Error>{errores.imagen}</Error>}
 
-              <Campo>
-                <label htmlFor="url">Url</label>
-                <input
-                  type="url"
-                  id="url"
-                  placeholder="URL de tu producto"
-                  name="url"
-                  value={url}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-              </Campo>
+                <Campo>
+                  <label htmlFor="url">Url</label>
+                  <input
+                    type="url"
+                    id="url"
+                    placeholder="URL de tu producto"
+                    name="url"
+                    value={url}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                </Campo>
 
-              {errores.url && <Error>{errores.url}</Error>}
-            </fieldset>
+                {errores.url && <Error>{errores.url}</Error>}
+              </fieldset>
 
-            <fieldset>
-              <legend>Sobre tu producto</legend>
+              <fieldset>
+                <legend>Sobre tu producto</legend>
 
-              <Campo>
-                <label htmlFor="descripcion">Descripción</label>
-                <textarea
-                  id="descripcion"
-                  name="descripcion"
-                  value={descripcion}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-              </Campo>
+                <Campo>
+                  <label htmlFor="descripcion">Descripción</label>
+                  <textarea
+                    id="descripcion"
+                    name="descripcion"
+                    value={descripcion}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                </Campo>
 
-              {errores.descripcion && <Error>{errores.descripcion}</Error>}
-            </fieldset>
+                {errores.descripcion && <Error>{errores.descripcion}</Error>}
+              </fieldset>
 
-            {error && <Error>{error}</Error>}
+              {error && <Error>{error}</Error>}
 
-            <InputSubmit type="submit" value="Crear Producto" />
-          </Formulario>
-        </>
+              <InputSubmit type="submit" value="Crear Producto" />
+            </Formulario>
+          </>
+        )}
       </Layout>
     </div>
   );
