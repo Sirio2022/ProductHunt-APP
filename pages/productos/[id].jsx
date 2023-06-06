@@ -159,7 +159,6 @@ export default function Producto() {
       comentarios: nuevosComentarios,
     });
     setConsultarDB(true); // Hay un comentario, por lo tanto consultar a la BD
-    setComentario({}); // Reiniciar el form
   };
 
   // Funcion que revisa que el creador del producto sea el mismo que esta autenticado
